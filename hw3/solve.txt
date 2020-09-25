@@ -1,0 +1,130 @@
+StudentId
+StudentName
+GroupId
+GroupName
+CourseId
+CourseName
+LecturerId
+LecturerName
+Mark
+
+1)
+StudentId -> StudentName, GroupId
+GroupId -> GroupName
+GroupName -> GroupId
+CourseId -> CourseName
+LecturerId -> LecturerName
+StudentId, CourseId -> Mark
+GroupId, CourseId -> LecturerId
+
+
+2.1)
+Ключ - это минимальный надключ по включению. Также он должен давать все атрибуты при замыкании. Попробуем его найти.
+Множество из всех атрибутов: {StudentId, StudentName, GroupId, GroupName, CourseId, CourseName, LecturerId, LecturerName, Mark}
+Сначала рассмотрим замыкание {StudentId}+ = {StudentId, StudentName, GroupId, GroupName}. Не хватает некоторых атрибутов.
+Если смотреть на множество ФЗ, то для выражения не хватает только CourseId (позже будет ещё дополнительное обоснование). Проверим замыкание с ним. {StudentId, CourseId}+ = {StudentId, StudentName, GroupId, GroupName, CourseId, CourseName, LecturerId, LecturerName, Mark}
+Получаем один из ключей {StudentId, CourseId}.
+Давайте поищем другие ключи. Рассматривать ключи без StudentId нельзя, иначе его никак не вывести потом и не получить все ключи при замыкании. Также не имеет смысл рассматривать тогда атрибуты, которые выводятся из StudentId, ибо если их брать как ключ, то он будет не самым минимальным.
+Остаётся {CourseId, CourseName, LecturerId, LecturerName, Mark}.
+1) CourseId - подошёл
+2) CourseName - вывести CourseId нельзя будет, так как имя предмета не уникально и из него нельзя вывести CourseId -> не построить множество из всех атрибутов.
+3) LecturerId - из него нельзя вывести никак CourseId -> не построить множество из всех атрибутов.
+4) LecturerName - вывести LecturerId нельзя будет, так как имя преподавателя не уникально и из него нельзя вывести LecturerId -> не построить множество из всех атрибутов.
+5) Mark - из него нельзя вывести никак {CourseId, CourseName, LecturerId, LecturerName}
+Вывод: ключ {StudentId, CourseId}
+
+2.2)
+{StudentId, CourseId}
+
+
+3.1)
+{GroupId, CourseId}
+{GroupId, CourseId, GroupName, CourseName, LecturerId}
+{GroupId, CourseId, GroupName, CourseName, LecturerId, LecturerName}
+
+3.2)
+{StudentId, CourseId}
+{StudentId, CourseId, StudentName, GroupId, CourseName, Mark}
+{StudentId, CourseId, StudentName, GroupId, CourseName, Mark, GroupName, LecturerId}
+{StudentId, CourseId, StudentName, GroupId, CourseName, Mark, GroupName, LecturerId, LecturerName}
+
+3.3)
+{StudentId, LecturerId}
+{StudentId, LecturerId, StudentName, GroupId, LecturerName}
+{StudentId, LecturerId, StudentName, GroupId, LecturerName, GroupName}
+
+
+4.1d)
+Расщепление правых частей. Делаем все правые части единичными.
+Пример было: 
+A -> B, C
+Стало:
+A -> B
+A -> C
+Так мы можем сделать только для правила {StudentId -> StudentName, GroupId} и получить {StudentId -> StudentName; StudentId -> GroupId}
+
+
+4.1r)
+StudentId -> StudentName
+StudentId -> GroupId
+GroupId -> GroupName
+GroupName -> GroupId
+CourseId -> CourseName
+LecturerId -> LecturerName
+StudentId, CourseId -> Mark
+GroupId, CourseId -> LecturerId
+
+
+4.2d)
+Удаление атрибута A U {X} -> B. Если B является подмножеством замыкания A+ над множеством данных ФЗ, то удаляем X.
+Можем попытаться для 
+1) StudentId, CourseId -> Mark
+{StudentId}+ = {StudentId, StudentName, GroupId, GroupName}
+{CourseId}+ = {CourseId, CourseName}
+Нельзя
+2) GroupId, CourseId -> LecturerId
+{GroupId}+ = {GroupId, GroupName,}
+{CourseId}+ = {CourseId, CourseName}
+Нельзя
+
+4.2r)
+StudentId -> StudentName
+StudentId -> GroupId
+GroupId -> GroupName
+GroupName -> GroupId
+CourseId -> CourseName
+LecturerId -> LecturerName
+StudentId, CourseId -> Mark
+GroupId, CourseId -> LecturerId
+
+
+4.3d)
+Удаление правила A -> B. Пытаемся удалить по одному правилу. Если B является подмножеством замыкания A+ над множеством данных ФЗ без {A -> B}, то удаляем ФЗ.
+Можем попытаться для
+1) StudentId -> StudentName
+(без этой ФЗ){StudentId}+ = {StudentId, GroupId, GroupName}
+2) StudentId -> GroupId
+(без этой ФЗ){StudentId}+ = {StudentId, StudentName}
+3) GroupId -> GroupName
+(без этой ФЗ){GroupId}+ = {GroupId}
+4) GroupName -> GroupId
+(без этой ФЗ){GroupName}+ = {GroupName}
+5) CourseId -> CourseName
+(без этой ФЗ){CourseId}+ = {CourseId}
+6) LecturerId -> LecturerName
+(без этой ФЗ){LecturerId}+ = {LecturerId}
+7) StudentId, CourseId -> Mark
+(без этой ФЗ){StudentId, CourseId}+ = {StudentId, StudentName, GroupId, GroupName, CourseId, CourseName, LecturerId, LecturerName}
+8) GroupId, CourseId -> LecturerId
+(без этой ФЗ){StudentId, CourseId}+ = {GroupId, GroupName, CourseId, CourseName}
+
+
+4.3r)
+StudentId -> StudentName
+StudentId -> GroupId
+GroupId -> GroupName
+GroupName -> GroupId
+CourseId -> CourseName
+LecturerId -> LecturerName
+StudentId, CourseId -> Mark
+GroupId, CourseId -> LecturerId

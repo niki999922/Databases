@@ -1,0 +1,32 @@
+Нотация: Crow's Foot. 
+Всего 4 сущности StudyGroups, Students, Subjects, Teachers.
+
+Сущность StudyGroups содержит в себе:
+1) Id - это индефикатор записи со свойствами "M","PK". Домен id.
+2) StudyGroupName - имя группы, со свойствами "M","K1" (у нас нет групп с одинаковым именем). Домен groupName.
+
+Сущность Students содержит в себе:
+1) Id - это индефикатор записи со свойствами "M","PK". Домен id.
+2) StudentName - имя студента, со свойствами "M". Домен name.
+3) Email - личный email студента. Домен email.
+
+Сущность Subjects содержит в себе:
+1) Id - это индефикатор записи со свойствами "M","PK". Домен id.
+2) SubjectName - имя предмета, со свойствами "M". Домен subjectName.
+
+Сущность Teachers содержит в себе:
+1) Id - это индефикатор записи со свойствами "M","PK". Домен id.
+2) TeacherName - имя преподователя, со свойствами "M". Домен name.
+
+Сущность StudyGroups связана с Students как один ко многим. Сущность Subjects связана с Teachers как многие ко многим.
+У Subjects и Students есть нагруженная обобщённая связь (ассоциация). Это ассоциация Marks. У Marks может быть много Students. У Marks может быть много Subjects.
+У Marks есть атрибуты Mark с доменом mark - оценка и Date с доменом date - дата выставления оценки.
+
+Домены:
+* id - int
+* groupName - char(5)
+* name - varchar(50)
+* email - varchar(60)
+* mark - int
+* date - date
+* subjectName - varchar(40)
