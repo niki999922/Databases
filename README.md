@@ -6,3 +6,7 @@ Results: https://docs.google.com/spreadsheets/u/2/d/e/2PACX-1vSDf4BUp7xumBzhhA-v
 Course page: https://www.kgeorgiy.info//courses/dbms/index.html
 
 Lectures: https://www.youtube.com/playlist?list=PLBAwg87wLtfLrQv5yPi9AVQD3HnVRnFje
+
+Hints for MacOS:
+pg_ctl -D /usr/local/var/postgres start
+pg_ctl -D /usr/local/var/postgres stop
