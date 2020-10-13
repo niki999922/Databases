@@ -1,0 +1,7 @@
+select
+    StudentName, avg(cast(Mark as real)) as AvgMark
+from
+    Marks
+    natural join Students
+group by
+    StudentName;

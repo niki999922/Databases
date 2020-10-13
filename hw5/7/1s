@@ -1,0 +1,39 @@
+select
+    CourseId, GroupId
+from (
+    select 
+        CourseId
+    from
+        Marks 
+        natural join Students
+    ) Req1, (
+    select 
+        GroupId
+    from
+        Students
+    ) Req2
+except
+    select
+        CourseId, GroupId
+    from (
+        select 
+            CourseId, StudentId, GroupId
+        from (
+            select
+                CourseId
+            from
+                Marks
+                natural join Students
+            ) Req3, (
+            select
+                StudentId, StudentName, GroupId
+            from
+                Students
+            ) Req4
+        except
+            select 
+                CourseId, StudentId, GroupId
+            from
+                Students
+                natural join Marks
+    ) Req5;
