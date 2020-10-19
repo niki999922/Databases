@@ -1,7 +1,14 @@
 select
-    StudentName, avg(cast(Mark as real)) as AvgMark
-from
-    Marks
-    natural join Students
-group by
-    StudentName;
+    StudentName, AvgMark
+from 
+    Students 
+    left join (
+        select 
+            avg(cast(Mark as real)) as AvgMark, StudentId
+        from 
+            Marks 
+        group by 
+            StudentId
+    ) req1 
+on 
+    Students.StudentId = req1.StudentId

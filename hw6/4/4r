@@ -1,0 +1,48 @@
+select
+    StudentId
+from 
+    Students
+where
+    StudentId not in (
+        select distinct
+            StudentId
+        from
+            Students S,
+            (
+                select distinct
+                    CourseId, GroupId
+                from 
+                    Lecturers L,
+                    Plan P
+                where
+                    L.LecturerId = P.LecturerId
+                    and LecturerName = :LecturerName
+            ) C
+        where
+            S.GroupId = C.GroupId
+            and not exists (
+                select 
+                    StudentId
+                from 
+                    (select distinct 
+                        StudentId, M.CourseId
+                    from 
+                        Marks M,
+                        (
+                            select distinct
+                                CourseId, GroupId
+                            from 
+                                Lecturers L,
+                                Plan P
+                            where
+                                L.LecturerId = P.LecturerId
+                                and LecturerName = :LecturerName
+                        ) Req2
+                     where
+                         M.CourseId = Req2.CourseId
+                     ) Req1
+                where 
+                    Req1.StudentId = S.StudentId 
+                    and Req1.CourseId = C.CourseId
+            )
+    );

@@ -1,0 +1,39 @@
+select
+    GroupId, CourseId
+from
+    Groups G,
+    Courses C
+where
+    not exists (
+        select
+            GroupId, CourseId
+        from
+            (
+            select distinct
+                GroupId, CourseId
+            from 
+                Students S,
+                Courses C
+            where
+                not exists (
+                    select
+                        StudentId, CourseId
+                    from
+                        (
+                        select distinct
+                            S.StudentId, CourseId
+                        from 
+                            Students S,
+                            Marks M
+                        where
+                            S.StudentId = M.StudentId
+                        ) subReq1
+                    where
+                        subReq1.StudentId = S.StudentId 
+                        and subReq1.CourseId = C.CourseId 
+                )
+            ) subReq2
+        where
+            subReq2.GroupId = G.GroupId
+            and subReq2.CourseId = C.CourseId
+    );
