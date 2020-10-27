@@ -53,7 +53,7 @@ group by Students.StudentId;
 
 2.2
 
-create table LosersT as
+create table LoserT as
 select 
     Students.StudentId, count(Plan.CourseId) as AmountDebts
 from
@@ -66,8 +66,8 @@ group by Students.StudentId;
 
 create or replace function pull_marks() returns trigger as $LosersTrigger$
     begin
-        delete from LosersT;
-        insert into LosersT (
+        delete from LoserT;
+        insert into LoserT (
             select 
                 Students.StudentId, count(Plan.CourseId) as AmountDebts
             from
