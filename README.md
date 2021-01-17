@@ -10,3 +10,9 @@ Lectures: https://www.youtube.com/playlist?list=PLBAwg87wLtfLrQv5yPi9AVQD3HnVRnF
 Hints for MacOS:
 pg_ctl -D /usr/local/var/postgres start
 pg_ctl -D /usr/local/var/postgres stop
+
+Добавляем в автозапуск при старте системы Mac OS.
+
+brew services start postgresql
+
+Run: psql postgres
