@@ -19,7 +19,12 @@ $$
 begin
 	insert into BoatRent (FishermanId, BoatId, BoatRentDeadline, State)
     	values (fishermanIdArg, boatIdArg, boatRentDeadlineArg, 'a');
-    return true;
+    if (select State from BoatRent where FishermanId = fishermanIdArg and BoatId = boatIdArg) = 'a'
+    then
+    	return true;
+    else
+    	return false;
+    end if;
 end;
 $$ language plpgsql;
 
@@ -30,8 +35,13 @@ returns boolean
 as
 $$
 begin
-	update BoatRent set State = 'c' where  FishermanId = fishermanIdArg and BoatId = boatIdArg;
-    return true;
+	update BoatRent set State = 'c' where FishermanId = fishermanIdArg and BoatId = boatIdArg;
+    if (select State from BoatRent where FishermanId = fishermanIdArg and BoatId = boatIdArg) = 'c'
+    then
+    	return true;
+    else
+    	return false;
+    end if;
 end;
 $$ language plpgsql;
 
